@@ -4,6 +4,7 @@ import {
   PenLine, FolderOpen, MessageSquareText, BookOpenCheck, BarChart3,
   Plus, Upload, X, Clock, Eye, Star, Sparkles, Send, FileText, MonitorPlay, Video, AudioLines,
   CheckCircle2, LayoutDashboard, Users, CalendarDays, AlertTriangle, TrendingUp,
+  Library, Wand2, History,
 } from 'lucide-react';
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RTooltip, ResponsiveContainer,
@@ -12,6 +13,8 @@ import {
 import {
   assignments as initAssignments, questionBanks, materials as initMaterials, pendingLessons,
   feedbackStudents, gradingQueue as initQueue, quickComments, classAnalytics, teacherHome,
+  imaKnowledgeBases, prepSkills, scoreBandAdvice, lastLessonGrading,
+  aiPreGradeWriting, aiPreGradeSpeaking,
   type Assignment, type Material, type GradingItem,
 } from '../data/platform';
 
@@ -172,6 +175,32 @@ function MaterialModule() {
         <button onClick={() => setShowModal(true)} className="flex items-center gap-1.5 rounded-lg bg-[#0C3B2E] px-4 py-2 text-[13px] font-medium text-white hover:bg-[#0a3328]">
           <Upload className="h-4 w-4" /> 上传并发布
         </button>
+      </div>
+
+      <div className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-3">
+        {imaKnowledgeBases.map((kb) => (
+          <div key={kb.campus} className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
+            <div className="flex items-center gap-2">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#0C3B2E]/5">
+                <Library className="h-4 w-4 text-[#0C3B2E]" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="truncate text-[13px] font-semibold text-slate-800">{kb.name}</div>
+                <div className="text-[10.5px] text-slate-400">{kb.campus}</div>
+              </div>
+              <span className="rounded-full bg-[#E8734A]/10 px-2 py-0.5 text-[10px] font-medium text-[#E8734A]">ima</span>
+            </div>
+            <div className="mt-2.5 flex flex-wrap gap-1.5">
+              {kb.highlights.map((h) => (
+                <span key={h} className="rounded-full bg-slate-50 px-2 py-0.5 text-[10.5px] text-slate-500 ring-1 ring-slate-100">{h}</span>
+              ))}
+            </div>
+            <div className="mt-2.5 flex items-center justify-between text-[11px] text-slate-400">
+              <span>{kb.docs} 篇资料 · 更新于 {kb.updated}</span>
+              <button className="font-medium text-[#0C3B2E] hover:underline">进入知识库</button>
+            </div>
+          </div>
+        ))}
       </div>
 
       <div className="mt-4 flex gap-2">
@@ -345,6 +374,36 @@ function FeedbackModule() {
                 <span className="text-[11px] text-slate-400">{lesson.time}</span>
               </div>
 
+              {/* AI 提示：上节课作业批改情况 */}
+              <div className="mt-3 rounded-lg border border-[#E8734A]/25 bg-[#E8734A]/[0.04] p-3.5">
+                <div className="flex items-center gap-1.5 text-[12px] font-semibold text-[#E8734A]">
+                  <History className="h-3.5 w-3.5" />
+                  AI 提示 · 上节课作业批改情况
+                </div>
+                <div className="mt-2 grid grid-cols-3 gap-2 text-center">
+                  <div className="rounded-lg bg-white py-2 ring-1 ring-slate-100">
+                    <div className="text-[15px] font-bold text-slate-900">{lastLessonGrading.submitted}/{lastLessonGrading.total}</div>
+                    <div className="text-[10.5px] text-slate-400">提交</div>
+                  </div>
+                  <div className="rounded-lg bg-white py-2 ring-1 ring-slate-100">
+                    <div className="text-[15px] font-bold text-slate-900">{lastLessonGrading.avgScore}</div>
+                    <div className="text-[10.5px] text-slate-400">平均得分</div>
+                  </div>
+                  <div className="rounded-lg bg-white py-2 ring-1 ring-slate-100">
+                    <div className="text-[15px] font-bold text-red-500">{lastLessonGrading.notSubmitted.length} 人未交</div>
+                    <div className="text-[10.5px] text-slate-400">{lastLessonGrading.notSubmitted.join('、')}</div>
+                  </div>
+                </div>
+                <p className="mt-2 text-[11.5px] leading-relaxed text-slate-600">
+                  <span className="font-medium text-slate-700">集中错因：</span>{lastLessonGrading.commonWrong}
+                </p>
+                <p className="mt-1 text-[11.5px] leading-relaxed text-slate-600">
+                  <Sparkles className="mr-1 inline h-3 w-3 text-[#E8734A]" />
+                  {lastLessonGrading.aiTip}
+                </p>
+                <p className="mt-1 text-[10.5px] text-slate-400">作业：{lastLessonGrading.assignment}</p>
+              </div>
+
               <div className="mt-3">
                 <span className="text-[12px] text-slate-500">选择学生</span>
                 <div className="mt-1.5 flex flex-wrap gap-1.5">
@@ -474,13 +533,44 @@ function GradingModule() {
               </div>
               <p className="mt-1 text-[11.5px] text-slate-400">{active.assignment}</p>
               <div className="mt-3 rounded-lg bg-slate-50 p-3.5 text-[13px] leading-relaxed text-slate-700">{active.content}</div>
-              <div className="mt-3 rounded-lg border border-amber-200 bg-amber-50/60 p-3.5">
-                <div className="flex items-center gap-2 text-[12.5px] font-semibold text-amber-800">
-                  <Sparkles className="h-4 w-4" /> 雅托邦 AI 初批 {active.aiScore} 分
-                </div>
-                <p className="mt-1 text-[12px] text-amber-700">{active.aiDetail}</p>
-                <p className="mt-1 text-[12px] leading-relaxed text-slate-600">{active.aiAdvice}</p>
-              </div>
+              {/* AI 预批改（口语/写作维度分，供老师参考） */}
+              {(() => {
+                const pre = active.subject === '写作' ? aiPreGradeWriting : active.subject === '口语' ? aiPreGradeSpeaking : null;
+                return (
+                  <div className="mt-3 rounded-lg border border-amber-200 bg-amber-50/60 p-3.5">
+                    <div className="flex items-center gap-2 text-[12.5px] font-semibold text-amber-800">
+                      <Sparkles className="h-4 w-4" /> AI 预批改 {active.aiScore} 分
+                      <span className="ml-auto rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-medium text-amber-700">仅供老师参考 · 以复评为准</span>
+                    </div>
+                    <p className="mt-1 text-[12px] text-amber-700">{active.aiDetail}</p>
+                    {pre && (
+                      <>
+                        <div className="mt-2.5 grid grid-cols-2 gap-x-4 gap-y-1.5">
+                          {pre.dims.map((d) => (
+                            <div key={d.label} className="flex items-center gap-2">
+                              <span className="w-24 text-[11px] text-slate-500">{d.label}</span>
+                              <div className="h-1.5 flex-1 rounded-full bg-white">
+                                <div className={`h-full rounded-full ${d.score >= 6.5 ? 'bg-emerald-500' : d.score >= 6 ? 'bg-amber-400' : 'bg-red-400'}`}
+                                  style={{ width: `${(d.score / 9) * 100}%` }} />
+                              </div>
+                              <span className="w-7 text-right text-[11.5px] font-semibold text-slate-700">{d.score.toFixed(1)}</span>
+                            </div>
+                          ))}
+                        </div>
+                        <div className="mt-2.5 space-y-1.5">
+                          {pre.annotations.map((a) => (
+                            <div key={a.quote} className="rounded-lg bg-white/80 px-3 py-2 text-[11.5px] ring-1 ring-amber-100">
+                              <span className="font-medium text-amber-800">“{a.quote}”</span>
+                              <span className="ml-1.5 text-slate-500">{a.note}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </>
+                    )}
+                    <p className="mt-2 text-[12px] leading-relaxed text-slate-600">{active.aiAdvice}</p>
+                  </div>
+                );
+              })()}
             </div>
 
             <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
@@ -599,6 +689,7 @@ function AnalyticsModule() {
 function HomeModule() {
   const h = teacherHome;
   const statIcons = [Users, Users, CalendarDays, BookOpenCheck];
+  const [activeSkill, setActiveSkill] = useState<string | null>(null);
   return (
     <div className="space-y-5">
       {/* 问候条 */}
@@ -693,8 +784,61 @@ function HomeModule() {
           </div>
         </div>
 
-        {/* 右列：需要关注 + 提分榜 + 待填反馈 */}
+        {/* 右列：AI 备课 + 需要关注 + 提分榜 + 待填反馈 */}
         <div className="space-y-5">
+          {/* AI 备课助手 · 已安装 Skills */}
+          <div className="rounded-xl border border-[#E8734A]/25 bg-white p-5 shadow-sm">
+            <h3 className="flex items-center gap-2 text-[15px] font-semibold text-slate-900">
+              <Wand2 className="h-4 w-4 text-[#E8734A]" />
+              AI 备课助手
+              <span className="rounded-full bg-[#E8734A]/10 px-2 py-0.5 text-[10px] font-medium text-[#E8734A]">Skills</span>
+            </h3>
+            <div className="mt-3 space-y-2">
+              {prepSkills.map((s) => (
+                <button key={s.name} onClick={() => setActiveSkill(activeSkill === s.name ? null : s.name)}
+                  className={`w-full rounded-lg border px-3.5 py-2.5 text-left transition-colors ${
+                    activeSkill === s.name ? 'border-[#0C3B2E] bg-[#0C3B2E]/5' : 'border-slate-100 hover:border-slate-200'
+                  }`}>
+                  <div className="flex items-center gap-2">
+                    <Sparkles className="h-3.5 w-3.5 text-[#0C3B2E]" />
+                    <span className="text-[13px] font-medium text-slate-800">{s.name}</span>
+                    <span className="ml-auto rounded-full bg-emerald-50 px-1.5 py-0.5 text-[10px] text-emerald-600">已安装</span>
+                  </div>
+                  <div className="mt-0.5 pl-5 text-[11px] text-slate-400">{s.desc}</div>
+                </button>
+              ))}
+            </div>
+            {activeSkill === '分数段对应建议' && (
+              <div className="mt-3 rounded-lg border border-[#0C3B2E]/15 bg-[#0C3B2E]/[0.03] p-3.5">
+                <div className="flex items-center gap-1.5 text-[11.5px] font-medium text-[#0C3B2E]">
+                  <Sparkles className="h-3.5 w-3.5" />
+                  {scoreBandAdvice.className} · 分数段差异化建议
+                </div>
+                <div className="mt-2 space-y-2.5">
+                  {scoreBandAdvice.bands.map((b) => (
+                    <div key={b.band} className="rounded-lg bg-white p-3 ring-1 ring-slate-100">
+                      <div className="flex items-center gap-2">
+                        <span className="rounded bg-[#0C3B2E] px-1.5 py-0.5 text-[10.5px] font-medium text-white">{b.band}</span>
+                        <span className="text-[11px] text-slate-400">{b.students} 人</span>
+                      </div>
+                      <p className="mt-1.5 text-[11.5px] leading-relaxed text-slate-600">{b.focus}</p>
+                      <p className="mt-1 text-[11px] text-slate-400">作业建议：{b.homework}</p>
+                    </div>
+                  ))}
+                </div>
+                <button className="mt-2.5 w-full rounded-lg bg-[#0C3B2E] py-2 text-[12px] font-medium text-white">
+                  按建议生成分层作业
+                </button>
+              </div>
+            )}
+            {activeSkill && activeSkill !== '分数段对应建议' && (
+              <div className="mt-3 rounded-lg bg-slate-50 px-3.5 py-3 text-[11.5px] text-slate-500">
+                <Sparkles className="mr-1 inline h-3.5 w-3.5 text-[#E8734A]" />
+                「{activeSkill}」将结合班级模考与错题数据生成方案，演示环境暂未接入真实数据。
+              </div>
+            )}
+          </div>
+
           <div className="rounded-xl border border-red-100 bg-white p-5 shadow-sm">
             <h3 className="flex items-center gap-2 text-[15px] font-semibold text-slate-900">
               <AlertTriangle className="h-4 w-4 text-red-500" />

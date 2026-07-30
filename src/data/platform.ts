@@ -385,3 +385,84 @@ export const teacherHome = {
     { title: '口语 Part 1 高频话题', time: '昨天 16:00', students: 12, status: '已超时', overdue: true },
   ],
 };
+
+// ==================== 教师端 AI 能力 ====================
+
+// 1. 分校 ima 知识库（资料管理）
+export interface ImaKnowledgeBase {
+  campus: string;
+  name: string;
+  docs: number;
+  updated: string;
+  highlights: string[];
+}
+export const imaKnowledgeBases: ImaKnowledgeBase[] = [
+  { campus: '北京·国贸校区', name: '国贸校区 ima 知识库', docs: 328, updated: '7-29 18:20', highlights: ['听力地图题讲义包', '写作 9 分范文集', '口语当季题库 5-8月'] },
+  { campus: '北京·望京校区', name: '望京校区 ima 知识库', docs: 256, updated: '7-28 15:02', highlights: ['阅读判断题教研集', '基础段词汇手册', '阶段模考真题包'] },
+  { campus: '北京·中关村校区', name: '中关村校区 ima 知识库', docs: 291, updated: '7-27 11:40', highlights: ['听力精听素材库', 'Task1 图表句型库', '高分学员案例集'] },
+];
+
+// 2. AI 备课助手 · 已安装 Skills
+export interface PrepSkill {
+  name: string;
+  desc: string;
+  installed: boolean;
+}
+export const prepSkills: PrepSkill[] = [
+  { name: '分数段对应建议', desc: '按班级分数段生成差异化教学与作业建议', installed: true },
+  { name: '全科备考规划', desc: '按目标分与备考周期生成全科学习计划', installed: true },
+  { name: '薄弱点学习建议', desc: '基于错题与模考数据生成单科强化建议', installed: true },
+];
+
+// 分数段对应建议 · 演示输出（260708 雅思6.5分全科班）
+export const scoreBandAdvice = {
+  className: '260708 雅思6.5分全科班',
+  bands: [
+    { band: '5.5 及以下', students: 5, focus: '夯实基础：语料库听写 + 长难句精析；作业以 5.5 分段题库为主，写作先保 TR 与语法准确', homework: '剑19-Test2 基础篇 + 核心词汇 Unit4' },
+    { band: '6.0–6.5', students: 13, focus: '题型突破：地图题/判断题专项，写作主体段展开训练；口语 Part2 5W1H 框架', homework: '剑20-Test1 专项卷 + Task2 教育类一篇' },
+    { band: '7.0+', students: 6, focus: '冲刺拔高：限时套题 + 同义替换高阶训练，写作 LR 与 GRA 冲 7；口语 Part3 深度讨论', homework: '剑21-Test3 限时套卷 + 9分范文仿写' },
+  ],
+};
+
+// 3. 授课反馈 · AI 提示上节课作业批改情况
+export const lastLessonGrading = {
+  assignment: '听力选择题专项（剑20-Test1-S3）',
+  submitted: 10,
+  total: 12,
+  avgScore: '7.5 / 10',
+  notSubmitted: ['陈浩然', '周静怡'],
+  commonWrong: 'Q28/Q30 干扰项误选集中（6 人错），与地图题方位词混淆相关联',
+  aiTip: '建议本次课开头用 5 分钟复盘 Q28/Q30，未交作业的 2 位同学课后单独跟进',
+};
+
+// 4. 批改中心 · AI 预批改维度分（口语/写作，供老师参考）
+export interface AiPreGrade {
+  dims: { label: string; score: number }[];
+  annotations: { quote: string; note: string }[];
+}
+export const aiPreGradeWriting: AiPreGrade = {
+  dims: [
+    { label: '任务回应 TR', score: 6.0 },
+    { label: '连贯衔接 CC', score: 6.5 },
+    { label: '词汇多样 LR', score: 5.5 },
+    { label: '语法准确 GRA', score: 6.0 },
+  ],
+  annotations: [
+    { quote: 'children should learn by themself', note: '语法：应为 themselves；反身代词单复数' },
+    { quote: 'play computer games is waste of time', note: '表达：动名词主语 + 缺冠词，建议改为 a waste of time' },
+    { quote: 'In conclusion, I think...', note: '结构：结论段未回应双方观点，TR 扣分点' },
+  ],
+};
+export const aiPreGradeSpeaking: AiPreGrade = {
+  dims: [
+    { label: '流利度与连贯', score: 6.0 },
+    { label: '词汇资源', score: 5.5 },
+    { label: '语法多样与准确', score: 6.0 },
+    { label: '发音', score: 6.5 },
+  ],
+  annotations: [
+    { quote: '0:32–0:41', note: '停顿 3 秒以上 2 次，流利度扣分；建议用 well / you know 过渡' },
+    { quote: '"very good" 重复 4 次', note: '词汇单一：可替换 fascinating / impressive / rewarding' },
+    { quote: '1:05 时态混用', note: '过去经历误用一般现在时，建议跟读纠正' },
+  ],
+};

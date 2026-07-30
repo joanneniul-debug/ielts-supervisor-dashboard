@@ -6,11 +6,10 @@ import TeacherTable from '../components/dashboard/TeacherTable';
 import RiskRadar from '../components/dashboard/RiskRadar';
 import RefundWarnings from '../components/dashboard/RefundWarnings';
 import ProgressStars from '../components/dashboard/ProgressStars';
-import ClassGrades from '../components/dashboard/ClassGrades';
 import TrialLessons from '../components/dashboard/TrialLessons';
 import { cities, citySites } from '../data/mock';
 
-const timeRanges = ['近 7 天', '近 30 天', '本学期'] as const;
+const timeRanges = ['近 7 天', '近 30 天', '本季度'] as const;
 
 export default function Home({
   adminTab,
@@ -95,7 +94,13 @@ export default function Home({
 
           <KpiRow />
 
-          <ClassGrades />
+          {/* 教师教学表现（维度看板） */}
+          <div className="flex items-center gap-3 pt-2">
+            <h2 className="text-[16px] font-semibold text-slate-900">教师教学管理</h2>
+            <span className="text-[12px] text-slate-400">统计范围：{timeRange} · {scopeText}</span>
+            <div className="h-px flex-1 bg-slate-200" />
+          </div>
+          <TeacherTable city={city} site={site} />
 
           <TrialLessons />
 
@@ -113,14 +118,6 @@ export default function Home({
           </div>
 
           <ProgressStars />
-
-          {/* 教师教学表现 */}
-          <div className="flex items-center gap-3 pt-2">
-            <h2 className="text-[16px] font-semibold text-slate-900">教师教学管理</h2>
-            <span className="text-[12px] text-slate-400">统计范围：{timeRange} · {scopeText}</span>
-            <div className="h-px flex-1 bg-slate-200" />
-          </div>
-          <TeacherTable city={city} site={site} />
         </main>
       </div>
     </div>

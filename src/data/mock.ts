@@ -364,14 +364,40 @@ export const classGrades: ClassGrade[] = [
   { id: 'cg12', name: '写作单项班', teacher: '吴倩', site: '成都·锦江校区', students: 6, avgScore: 6.0, highRate: 17, improveRate: 67, hours: 14 },
 ];
 
-export const gradeKpis = [
-  { label: '在学学员', value: '286', unit: '人', delta: '+12 本月新入班' },
-  { label: '高分率（7.0+）', value: '18', unit: '%', delta: '+4% 较上月' },
-  { label: '提分率（≥0.5分）', value: '76', unit: '%', delta: '较入学成绩' },
-  { label: '全职教师月均课时', value: '86', unit: '课时/月', delta: '全职 18 人 · 近 3 个月均值' },
-  { label: '风险学员', value: '23', unit: '人', delta: '-4 较上周' },
-  { label: '学员平均提分', value: '+0.8', unit: '分', delta: '最近一轮模考' },
-];
+// 成绩关键指标 · 按季度（不分学期）
+export interface GradeKpi {
+  label: string;
+  value: string;
+  unit: string;
+  delta: string;
+}
+export const gradeQuarters = ['2026 Q1', '2026 Q2', '2026 Q3'] as const;
+export const gradeKpisByQuarter: Record<string, GradeKpi[]> = {
+  '2026 Q1': [
+    { label: '在学学员', value: '214', unit: '人', delta: 'Q1 季末在册' },
+    { label: '高分率（7.0+）', value: '12', unit: '%', delta: 'Q1 出分学员占比' },
+    { label: '提分率（≥0.5分）', value: '68', unit: '%', delta: '较入学成绩' },
+    { label: '全职教师月均课时', value: '79', unit: '课时/月', delta: '全职 16 人 · Q1 均值' },
+    { label: '风险学员', value: '31', unit: '人', delta: 'Q1 季末在册预警' },
+    { label: '学员平均提分', value: '+0.6', unit: '分', delta: 'Q1 末轮模考' },
+  ],
+  '2026 Q2': [
+    { label: '在学学员', value: '258', unit: '人', delta: 'Q2 季末在册' },
+    { label: '高分率（7.0+）', value: '15', unit: '%', delta: '+3pt 较 Q1' },
+    { label: '提分率（≥0.5分）', value: '72', unit: '%', delta: '+4pt 较 Q1' },
+    { label: '全职教师月均课时', value: '83', unit: '课时/月', delta: '全职 17 人 · Q2 均值' },
+    { label: '风险学员', value: '27', unit: '人', delta: '-4 较 Q1' },
+    { label: '学员平均提分', value: '+0.7', unit: '分', delta: 'Q2 末轮模考' },
+  ],
+  '2026 Q3': [
+    { label: '在学学员', value: '286', unit: '人', delta: '+12 本月新入班' },
+    { label: '高分率（7.0+）', value: '18', unit: '%', delta: '+3pt 较 Q2' },
+    { label: '提分率（≥0.5分）', value: '76', unit: '%', delta: '+4pt 较 Q2' },
+    { label: '全职教师月均课时', value: '86', unit: '课时/月', delta: '全职 18 人 · Q3 至今均值' },
+    { label: '风险学员', value: '23', unit: '人', delta: '-4 较 Q2' },
+    { label: '学员平均提分', value: '+0.8', unit: '分', delta: '最近一轮模考' },
+  ],
+};
 
 // ==================== 试听课转化（数据来源：启德考培试听课数据统计报表，2026-01-01 至 2026-07-26） ====================
 
