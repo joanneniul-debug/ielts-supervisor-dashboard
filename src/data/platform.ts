@@ -343,3 +343,45 @@ export const classAnalytics: Record<'c1' | 'c2', ClassAnalytic> = {
     },
   },
 };
+
+// ==================== 教师工作台首页 ====================
+
+export const teacherHome = {
+  greeting: {
+    name: '张萌',
+    summary: '今天有 2 节课，6 份作业待批改，3 节课待填写反馈',
+  },
+  stats: [
+    { label: '我的班级', value: '4', unit: '个' },
+    { label: '学员总数', value: '87', unit: '人' },
+    { label: '本周课次', value: '6', unit: '节' },
+    { label: '待批改作业', value: '6', unit: '份' },
+  ],
+  todayClasses: [
+    { time: '10:00–12:00', title: '地图题专项突破', klass: '260708 雅思6.5分全科班', subject: '听力' },
+    { time: '14:00–16:00', title: '判断题 TRUE / FALSE / NOT GIVEN', klass: '260720 雅思7.0分冲刺班', subject: '阅读' },
+  ],
+  attention: [
+    { name: '陈浩然', level: '高风险', reason: '作业完成率仅 60%，连续下降' },
+    { name: '周静怡', level: '高风险', reason: '阅读成绩退步，近两次缺交' },
+  ],
+  myClasses: [
+    { name: '260708 雅思6.5分全科班', schedule: '周一 / 三 / 五 10:00–12:00', students: 24, avg: 6.0, progress: 28, total: 48 },
+    { name: '260720 雅思7.0分冲刺班', schedule: '周二 / 四 / 六 14:00–16:00', students: 18, avg: 6.5, progress: 15, total: 36 },
+  ],
+  scoreRates: [
+    { label: '本月提分率', value: '16.1%', detail: '9 ÷ 56（去重）' },
+    { label: '本月高分率', value: '5.4%', detail: '3 ÷ 56（去重）' },
+    { label: '本季度提分率', value: '23.4%', detail: '15 ÷ 64（去重）' },
+    { label: '本季度高分率', value: '10.9%', detail: '7 ÷ 64（去重）' },
+  ],
+  topImprovers: [
+    { name: '孙博远', from: 5.5, to: 7.0, delta: '+1.5' },
+    { name: '张雨晴', from: 5.5, to: 6.5, delta: '+1.0' },
+    { name: '李明', from: 5.5, to: 6.5, delta: '+1.0' },
+  ],
+  pendingFeedback: [
+    { title: '阅读判断题专项', time: '今天 14:00', students: 18, status: '课后待填', overdue: false },
+    { title: '口语 Part 1 高频话题', time: '昨天 16:00', students: 12, status: '已超时', overdue: true },
+  ],
+};
