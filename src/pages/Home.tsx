@@ -1,15 +1,29 @@
 import { useState } from 'react';
 import { Bell, Search, RefreshCw } from 'lucide-react';
 import Sidebar from '../components/dashboard/Sidebar';
-import KpiRow from '../components/dashboard/KpiRow';
-import TeacherTable from '../components/dashboard/TeacherTable';
-import RiskRadar from '../components/dashboard/RiskRadar';
-import RefundWarnings from '../components/dashboard/RefundWarnings';
-import ProgressStars from '../components/dashboard/ProgressStars';
-import TrialLessons from '../components/dashboard/TrialLessons';
+import TodoPanel from '../components/dashboard/supervisor/TodoPanel';
+import TeacherLoad from '../components/dashboard/supervisor/TeacherLoad';
+import WorkMonitor from '../components/dashboard/supervisor/WorkMonitor';
+import TeachingResults from '../components/dashboard/supervisor/TeachingResults';
+import ClassData from '../components/dashboard/supervisor/ClassData';
+import StudentData from '../components/dashboard/supervisor/StudentData';
+import TrialManage from '../components/dashboard/supervisor/TrialManage';
+import ResearchSupport from '../components/dashboard/supervisor/ResearchSupport';
 import { cities, citySites } from '../data/mock';
 
 const timeRanges = ['近 7 天', '近 30 天', '本季度'] as const;
+
+const tabs = [
+  { key: 'todo', label: '待办' },
+  { key: 'load', label: '教师负荷' },
+  { key: 'monitor', label: '工作监控' },
+  { key: 'results', label: '教学结果' },
+  { key: 'class', label: '班级数据' },
+  { key: 'student', label: '学员数据' },
+  { key: 'trial', label: '试听管理' },
+  { key: 'research', label: '教研支持' },
+] as const;
+type TabKey = (typeof tabs)[number]['key'];
 
 export default function Home({
   adminTab,
@@ -21,7 +35,7 @@ export default function Home({
   const [timeRange, setTimeRange] = useState<(typeof timeRanges)[number]>('近 30 天');
   const [city, setCity] = useState('全部城市');
   const [site, setSite] = useState('全部校区');
-  const scopeText = site !== '全部校区' ? site : city;
+  const [tab, setTab] = useState<TabKey>('todo');
 
   return (
     <div className="min-h-screen bg-[#F4F6F5]">
@@ -49,11 +63,11 @@ export default function Home({
             <div>
               <h1 className="text-[24px] font-bold text-slate-900">教学主管看板</h1>
               <p className="mt-1 text-[13px] text-slate-500">
-                老师课量、学生数、作业与批改、授课反馈完成率、所带学生出分情况 · AI 智能反馈风险监控
+                待办审批 · 教师负荷与工作监控 · 教学结果 · 班级/学员数据 · 试听管理 · 教研支持
               </p>
               <p className="mt-1.5 flex items-center gap-1.5 text-[12px] text-slate-400">
                 <RefreshCw className="h-3 w-3" />
-                数据更新于 2026-07-27 09:30 · 已对接雅托邦与教务系统（演示环境）
+                数据更新于 2026-11-20 09:30 · 已对接雅托邦与教务系统（演示环境）
               </p>
             </div>
             <div className="flex items-center gap-3">
@@ -92,32 +106,34 @@ export default function Home({
             </div>
           </div>
 
-          <KpiRow />
-
-          {/* 教师教学表现（维度看板） */}
-          <div className="flex items-center gap-3 pt-2">
-            <h2 className="text-[16px] font-semibold text-slate-900">教师教学管理</h2>
-            <span className="text-[12px] text-slate-400">统计范围：{timeRange} · {scopeText}</span>
-            <div className="h-px flex-1 bg-slate-200" />
-          </div>
-          <TeacherTable city={city} site={site} />
-
-          <TrialLessons />
-
-          {/* AI 智能反馈分析区 */}
-          <div className="flex items-center gap-3 pt-2">
-            <div className="rounded-md bg-[#0C3B2E] px-2 py-1 text-[11px] font-medium text-white">AI</div>
-            <h2 className="text-[16px] font-semibold text-slate-900">智能反馈分析</h2>
-            <span className="text-[12px] text-slate-400">基于教师课堂评语的智能解析与风险监控</span>
-            <div className="h-px flex-1 bg-slate-200" />
+          {/* 功能页签 */}
+          <div className="flex flex-wrap gap-1 rounded-xl border border-slate-200 bg-white p-1.5 shadow-sm">
+            {tabs.map((t) => (
+              <button
+                key={t.key}
+                onClick={() => setTab(t.key)}
+                className={`rounded-lg px-4 py-2 text-[13px] transition-colors ${
+                  tab === t.key ? 'bg-[#0C3B2E] font-medium text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100'
+                }`}
+              >
+                {t.label}
+              </button>
+            ))}
           </div>
 
-          <div className="grid grid-cols-1 gap-5 xl:grid-cols-2">
-            <RiskRadar />
-            <RefundWarnings />
-          </div>
+          {/* 页签内容 */}
+          {tab === 'todo' && <TodoPanel />}
+          {tab === 'load' && <TeacherLoad />}
+          {tab === 'monitor' && <WorkMonitor />}
+          {tab === 'results' && <TeachingResults />}
+          {tab === 'class' && <ClassData />}
+          {tab === 'student' && <StudentData />}
+          {tab === 'trial' && <TrialManage />}
+          {tab === 'research' && <ResearchSupport />}
 
-          <ProgressStars />
+          <p className="pt-1 text-center text-[11px] text-slate-300">
+            当前筛选：{city} / {site} / {timeRange}（演示环境，筛选器已预留全模块联动）
+          </p>
         </main>
       </div>
     </div>

@@ -448,3 +448,179 @@ export const trialCampuses = [
   { name: '深圳考培', trials: 270, successRate: 54.8 },
   { name: '武汉考培', trials: 239, successRate: 56.1 },
 ];
+
+// ==================== 教学主管看板 · 八大模块（2026-11 版） ====================
+
+// 1. 待办
+export const supervisorPersonalTodos = [
+  { id: 'pt1', title: '准备本周教研会：阅读判断题错误率专题', due: '今天 16:00', tag: '教研' },
+  { id: 'pt2', title: 'Q4 教师一对一面谈：陈默、林晓丹', due: '本周五前', tag: '面谈' },
+  { id: 'pt3', title: '复盘 10 月高分率未达标校区（合肥、成都基础段）', due: '11-22', tag: '复盘' },
+  { id: 'pt4', title: '审核新版口语题库入库申请', due: '11-24', tag: '教研' },
+];
+export const supervisorApprovals = [
+  { id: 'ap1', type: '调课申请', applicant: '张萌', content: '260708 班 周六课调至周日 10:00（与模考冲突）', time: '10 分钟前' },
+  { id: 'ap2', type: '请假申请', applicant: '王雅静', content: '11-24 全天病假，望京基础B班需代课', time: '1 小时前' },
+  { id: 'ap3', type: '试听加排', applicant: '课程顾问·李倩', content: '学员刘一鸣要求加排口语试听（原试听未通过）', time: '今天 09:12' },
+  { id: 'ap4', type: '高分奖励', applicant: '系统自动', content: 'Q3 高分学员 18 人，对应教师奖金核算单', time: '昨天 17:40' },
+];
+
+// 2. 教师负荷
+export interface TeacherLoad {
+  name: string; type: '全职' | '兼职'; site: string;
+  monthHours: number; yearAvg: number; classCount: number; students: number;
+}
+export const teacherLoads: TeacherLoad[] = [
+  { name: '张萌', type: '全职', site: '北京·国贸', monthHours: 118, yearAvg: 96, classCount: 4, students: 42 },
+  { name: '李思远', type: '全职', site: '深圳·南山', monthHours: 112, yearAvg: 94, classCount: 4, students: 38 },
+  { name: '黄志文', type: '全职', site: '深圳·福田', monthHours: 104, yearAvg: 90, classCount: 3, students: 41 },
+  { name: '孙立群', type: '全职', site: '北京·中关村', monthHours: 98, yearAvg: 88, classCount: 3, students: 36 },
+  { name: '王雅静', type: '全职', site: '北京·望京', monthHours: 92, yearAvg: 85, classCount: 3, students: 34 },
+  { name: '吴倩', type: '全职', site: '成都·锦江', monthHours: 88, yearAvg: 82, classCount: 3, students: 33 },
+  { name: '陈默', type: '全职', site: '上海·徐汇', monthHours: 76, yearAvg: 80, classCount: 2, students: 25 },
+  { name: '林晓丹', type: '兼职', site: '上海·浦东', monthHours: 54, yearAvg: 48, classCount: 2, students: 24 },
+  { name: '周凯文', type: '兼职', site: '合肥·政务', monthHours: 46, yearAvg: 44, classCount: 2, students: 22 },
+  { name: '赵梦琪', type: '兼职', site: '北京·国贸', monthHours: 32, yearAvg: 36, classCount: 1, students: 12 },
+];
+export const teacherLoadSummary = {
+  totalMonthHours: 820, avgMonthHours: 82, avgClassCount: 2.7,
+  fullTime: 18, partTime: 7, // 全职 72% / 兼职 28%
+};
+
+// 3. 教师工作监控
+export const classroomAiChecks = [
+  { id: 'ca1', teacher: '张萌', lesson: '听力·地图题专项 11-18', score: 92, tags: ['互动充分', '节奏良好'], issue: '' },
+  { id: 'ca2', teacher: '孙立群', lesson: '阅读·判断题 11-17', score: 85, tags: ['讲解清晰'], issue: '后排 2 名学生参与度低' },
+  { id: 'ca3', teacher: '陈默', lesson: '写作·Task2 结构 11-16', score: 71, tags: ['节奏偏快'], issue: '课堂练习时间不足，AI 检测到 12 分钟单向讲授' },
+  { id: 'ca4', teacher: '林晓丹', lesson: '听力·精听训练 11-15', score: 88, tags: ['互动充分', '反馈及时'], issue: '' },
+];
+export const recordingChecks = [
+  { id: 'rc1', teacher: '王雅静', lesson: '词汇·语料库听写 11-18', result: '正常', aiSummary: '授课与教案一致，听写节奏标准' },
+  { id: 'rc2', teacher: '陈默', lesson: '写作·Task2 结构 11-16', result: '需复听', aiSummary: '检测到超时讲授，互动问答仅 2 次' },
+  { id: 'rc3', teacher: '黄志文', lesson: '阅读·段落匹配 11-14', result: '正常', aiSummary: '提问覆盖率 85%，学生应答率高' },
+];
+export const feedbackTimeliness = [
+  { teacher: '张萌', publishRate: 100, avgHours: 3.2 },
+  { teacher: '李思远', publishRate: 98, avgHours: 5.1 },
+  { teacher: '孙立群', publishRate: 96, avgHours: 8.4 },
+  { teacher: '王雅静', publishRate: 94, avgHours: 11.2 },
+  { teacher: '黄志文', publishRate: 92, avgHours: 14.8 },
+  { teacher: '吴倩', publishRate: 90, avgHours: 18.5 },
+  { teacher: '陈默', publishRate: 82, avgHours: 26.3 },
+  { teacher: '林晓丹', publishRate: 88, avgHours: 21.7 },
+];
+export const gradingAudit = [
+  { teacher: '张萌', assignCount: 22, gradeRate: 100, fixRate: 8.5, abnormal: false },
+  { teacher: '李思远', assignCount: 20, gradeRate: 98, fixRate: 9.2, abnormal: false },
+  { teacher: '孙立群', assignCount: 18, gradeRate: 97, fixRate: 11.4, abnormal: false },
+  { teacher: '王雅静', assignCount: 16, gradeRate: 95, fixRate: 13.2, abnormal: false },
+  { teacher: '黄志文', assignCount: 19, gradeRate: 93, fixRate: 10.8, abnormal: false },
+  { teacher: '吴倩', assignCount: 15, gradeRate: 91, fixRate: 18.6, abnormal: false },
+  { teacher: '陈默', assignCount: 12, gradeRate: 78, fixRate: 27.3, abnormal: true },
+  { teacher: '林晓丹', assignCount: 10, gradeRate: 84, fixRate: 31.5, abnormal: true },
+];
+
+// 4. 教学结果（NPS + 高分提分率）
+export const campusNps = [
+  { campus: '北京·国贸', nps: 72 }, { campus: '北京·望京', nps: 68 }, { campus: '北京·中关村', nps: 65 },
+  { campus: '上海·徐汇', nps: 58 }, { campus: '上海·浦东', nps: 61 }, { campus: '深圳·南山', nps: 70 },
+  { campus: '深圳·福田', nps: 66 }, { campus: '成都·锦江', nps: 63 },
+];
+export const teacherNps = [
+  { teacher: '张萌', nps: 78 }, { teacher: '李思远', nps: 75 }, { teacher: '孙立群', nps: 71 },
+  { teacher: '黄志文', nps: 69 }, { teacher: '王雅静', nps: 66 }, { teacher: '吴倩', nps: 62 },
+  { teacher: '林晓丹', nps: 58 }, { teacher: '陈默', nps: 51 },
+];
+export const campusScoreRates = [
+  { campus: '北京·国贸', highRate: 24, improveRate: 82 },
+  { campus: '北京·望京', highRate: 16, improveRate: 78 },
+  { campus: '北京·中关村', highRate: 18, improveRate: 74 },
+  { campus: '上海·徐汇', highRate: 12, improveRate: 66 },
+  { campus: '上海·浦东', highRate: 10, improveRate: 69 },
+  { campus: '深圳·南山', highRate: 22, improveRate: 80 },
+  { campus: '深圳·福田', highRate: 15, improveRate: 72 },
+  { campus: '成都·锦江', highRate: 17, improveRate: 75 },
+];
+export const teacherScoreRates = [
+  { teacher: '张萌', highRate: 26, improveRate: 86 },
+  { teacher: '李思远', highRate: 24, improveRate: 82 },
+  { teacher: '孙立群', highRate: 19, improveRate: 76 },
+  { teacher: '黄志文', highRate: 16, improveRate: 73 },
+  { teacher: '王雅静', highRate: 12, improveRate: 79 },
+  { teacher: '吴倩', highRate: 15, improveRate: 74 },
+  { teacher: '林晓丹', highRate: 8, improveRate: 68 },
+  { teacher: '陈默', highRate: 9, improveRate: 61 },
+];
+
+// 5. 班级数据
+export interface ClassDataRow {
+  name: string; teacher: string; site: string;
+  attendance: number; homeworkRate: number; accuracy: number; mockAvg: number;
+  dist: [number, number, number, number]; // <5.5 / 5.5-6 / 6.5-7 / 7+ 人数
+  topWrong: string[];
+}
+export const classDataRows: ClassDataRow[] = [
+  { name: '260708 雅思6.5分全科班', teacher: '张萌', site: '北京·国贸', attendance: 96, homeworkRate: 92, accuracy: 81, mockAvg: 6.4, dist: [0, 3, 14, 7], topWrong: ['听力地图题方位词', '写作TR结论段'] },
+  { name: '260720 雅思7.0分冲刺班', teacher: '李思远', site: '深圳·南山', attendance: 94, homeworkRate: 89, accuracy: 83, mockAvg: 6.6, dist: [0, 2, 10, 6], topWrong: ['阅读段落匹配', '口语Part3论证'] },
+  { name: '260905 强化A班', teacher: '孙立群', site: '北京·中关村', attendance: 91, homeworkRate: 85, accuracy: 74, mockAvg: 6.1, dist: [1, 6, 12, 3], topWrong: ['判断题NG误判', '听力S3选择题'] },
+  { name: '260910 基础B班', teacher: '王雅静', site: '北京·望京', attendance: 93, homeworkRate: 88, accuracy: 68, mockAvg: 5.6, dist: [4, 9, 6, 1], topWrong: ['填空题词性预判', '拼写错误'] },
+  { name: '260812 强化D班', teacher: '陈默', site: '上海·徐汇', attendance: 84, homeworkRate: 72, accuracy: 66, mockAvg: 5.9, dist: [2, 8, 9, 2], topWrong: ['写作CC衔接', '听力S4填空'] },
+  { name: '260715 基础C班', teacher: '林晓丹', site: '上海·浦东', attendance: 88, homeworkRate: 76, accuracy: 64, mockAvg: 5.7, dist: [3, 8, 8, 1], topWrong: ['语料库听写', '阅读定位'] },
+  { name: '260830 强化C班', teacher: '黄志文', site: '深圳·福田', attendance: 90, homeworkRate: 82, accuracy: 71, mockAvg: 6.0, dist: [1, 7, 11, 3], topWrong: ['判断题绝对化词', 'Task1趋势词'] },
+  { name: '260918 口语专项班', teacher: '赵梦琪', site: '北京·国贸', attendance: 95, homeworkRate: 90, accuracy: 78, mockAvg: 6.2, dist: [0, 2, 7, 3], topWrong: ['Part2时长不足', '时态混用'] },
+];
+
+// 6. 学员数据（风险分级）
+export interface StudentRiskRow {
+  name: string; className: string; site: string; risk: '高' | '中' | '低';
+  attendance: number; homeworkRate: number; quality: number; mockTrend: number[]; lastMock: number;
+}
+export const studentRiskRows: StudentRiskRow[] = [
+  { name: '陈浩然', className: '260812 强化D班', site: '上海·徐汇', risk: '高', attendance: 68, homeworkRate: 60, quality: 55, mockTrend: [6.0, 5.8, 5.5, 5.5], lastMock: 5.5 },
+  { name: '周静怡', className: '260905 强化A班', site: '北京·中关村', risk: '高', attendance: 75, homeworkRate: 64, quality: 58, mockTrend: [6.0, 6.0, 5.7, 5.5], lastMock: 5.5 },
+  { name: '刘一鸣', className: '260715 基础C班', site: '上海·浦东', risk: '高', attendance: 71, homeworkRate: 58, quality: 52, mockTrend: [5.5, 5.3, 5.3, 5.0], lastMock: 5.0 },
+  { name: '王思远', className: '260708 雅思6.5分全科班', site: '北京·国贸', risk: '中', attendance: 88, homeworkRate: 80, quality: 72, mockTrend: [5.5, 5.8, 5.8, 6.0], lastMock: 6.0 },
+  { name: '赵一诺', className: '260830 强化C班', site: '深圳·福田', risk: '中', attendance: 90, homeworkRate: 84, quality: 75, mockTrend: [5.8, 6.0, 6.0, 6.0], lastMock: 6.0 },
+  { name: '孙艺涵', className: '260910 基础B班', site: '北京·望京', risk: '中', attendance: 86, homeworkRate: 78, quality: 70, mockTrend: [5.0, 5.3, 5.5, 5.5], lastMock: 5.5 },
+  { name: '张可欣', className: '260708 雅思6.5分全科班', site: '北京·国贸', risk: '低', attendance: 98, homeworkRate: 96, quality: 90, mockTrend: [5.5, 6.0, 6.0, 6.5], lastMock: 6.5 },
+  { name: '陈雨桐', className: '260720 雅思7.0分冲刺班', site: '深圳·南山', risk: '低', attendance: 97, homeworkRate: 94, quality: 88, mockTrend: [6.0, 6.3, 6.5, 6.5], lastMock: 6.5 },
+  { name: '刘子墨', className: '260918 口语专项班', site: '北京·国贸', risk: '低', attendance: 96, homeworkRate: 93, quality: 86, mockTrend: [5.8, 6.0, 6.0, 6.3], lastMock: 6.3 },
+  { name: '孙博远', className: '260720 雅思7.0分冲刺班', site: '深圳·南山', risk: '低', attendance: 99, homeworkRate: 98, quality: 95, mockTrend: [5.5, 6.0, 6.5, 7.0], lastMock: 7.0 },
+];
+
+// 7. 试听管理 · AI 分析 + 失败标记
+export const trialAiChecks = [
+  { id: 'ta1', teacher: '李哲豪', student: '学员 A3267', date: '11-18', score: 94, summary: '需求挖掘充分，试听后当场签约', result: '关单' },
+  { id: 'ta2', teacher: '王若愚', student: '学员 A3302', date: '11-17', score: 62, summary: '课程难度与学员水平不匹配，互动不足', result: '失败' },
+  { id: 'ta3', teacher: '张藏月', student: '学员 A3315', date: '11-16', score: 88, summary: '节奏良好，学员反馈“讲得很清楚”', result: '关单' },
+];
+export const trialFailReasons = ['价格因素', '时间冲突', '课程不匹配', '教师风格不符', '竞品流失', '暂缓报班', '其他'];
+export const trialFailList = [
+  { id: 'tf1', student: '学员 A3302', teacher: '王若愚', date: '11-17', project: '雅思全科', reason: '' },
+  { id: 'tf2', student: '学员 A3288', teacher: '侯涛', date: '11-15', project: '口语单项', reason: '' },
+  { id: 'tf3', student: '学员 A3291', teacher: '周佳琪', date: '11-14', project: '写作单项', reason: '' },
+  { id: 'tf4', student: '学员 A3276', teacher: '魏琳蕙', date: '11-12', project: '雅思全科', reason: '' },
+];
+
+// 8. 教研支持
+export const topWrongQuestions = [
+  { rank: 1, q: '听力·地图题方位词（from/behind 混淆）', subject: '听力', errorRate: 47, classes: 9 },
+  { rank: 2, q: '阅读·判断题 FALSE vs NOT GIVEN', subject: '阅读', errorRate: 44, classes: 11 },
+  { rank: 3, q: '写作·Task2 结论段未回应观点', subject: '写作', errorRate: 41, classes: 10 },
+  { rank: 4, q: '听力·S3 选择题干扰项误选', subject: '听力', errorRate: 39, classes: 8 },
+  { rank: 5, q: '口语·Part2 时长不足 1 分钟', subject: '口语', errorRate: 36, classes: 7 },
+  { rank: 6, q: '阅读·段落匹配题定位偏差', subject: '阅读', errorRate: 34, classes: 9 },
+  { rank: 7, q: '写作·主谓一致与单复数', subject: '写作', errorRate: 33, classes: 12 },
+  { rank: 8, q: '听力·S4 填空拼写错误', subject: '听力', errorRate: 31, classes: 8 },
+  { rank: 9, q: '口语·时态混用（过去经历）', subject: '口语', errorRate: 29, classes: 6 },
+  { rank: 10, q: '阅读·填空题词性预判失误', subject: '阅读', errorRate: 27, classes: 10 },
+];
+export const weakKnowledge = [
+  { point: '听力·方位词与地图题', errorRate: 47, mom: '+6pt' },
+  { point: '阅读·判断题逻辑', errorRate: 44, mom: '+3pt' },
+  { point: '写作·任务回应 TR', errorRate: 41, mom: '+2pt' },
+  { point: '口语·流利度与连贯', errorRate: 36, mom: '-1pt' },
+  { point: '写作·词汇多样性 LR', errorRate: 35, mom: '+1pt' },
+  { point: '阅读·同义替换识别', errorRate: 32, mom: '持平' },
+];
+export const researchSuggestion = '建议 11 月教研会主题：① 听力地图题方位词专项教研（错误率 47% 居首且环比上升）；② 判断题 FALSE/NOT GIVEN 统一讲法与练习模板；③ 陈默、林晓丹所带班级作业完成率偏低，需同步布置策略。';
